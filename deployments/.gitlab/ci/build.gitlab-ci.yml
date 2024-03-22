@@ -2,7 +2,6 @@ image: golang:latest
 
 stages:
   - build
-  - release
 
 variables:
   GO111MODULE: "on"
