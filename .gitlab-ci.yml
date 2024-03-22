@@ -40,13 +40,21 @@ release:
     - goreleaser release --clean
 
 init-release:
-  image: node:latest
   stage: release
-  before_script:
-    - apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
-    - npm install -g semantic-release @semantic-release/git @google/semantic-release-replace-plugin @semantic-release/release-notes-generator @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec
   script:
-    - semantic-release --debug
+      # Retrieve the previous tag
+    - PREVIOUS_TAG=$(git describe --tags --abbrev=0)
+    # Extract the version number from the previous tag
+    - VERSION=$(echo $PREVIOUS_TAG | grep -oP '^v\d+\.\d+\.\d+')
+    # Increment the patch version (you can adjust this logic based on your versioning scheme)
+    - PATCH_VERSION=$(echo $VERSION | awk -F. '{print $3}')
+    - NEW_PATCH_VERSION=$((PATCH_VERSION + 1))
+    # Construct the new pre-release tag
+    - NEW_TAG=$(echo $VERSION | sed "s/\(.*\)\.\(.*\)\.\(.*\)/\1.\2.$NEW_PATCH_VERSION-pre/")
+    # Create the new tag
+    - git tag -a "$NEW_TAG" -m "Pre-release version $NEW_TAG"
+    # Push the new tag to the repository
+    - git push --tags
   only:
     - main
   when: manual
