@@ -43,8 +43,6 @@ init-release:
   image: node:latest
   stage: release
   before_script:
-    - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
-    - export GOPRIVATE=${CI_SERVER_HOST}
     - apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
     - npm install -g semantic-release @semantic-release/git @google/semantic-release-replace-plugin @semantic-release/release-notes-generator @semantic-release/gitlab @semantic-release/changelog @semantic-release/exec
   script:
