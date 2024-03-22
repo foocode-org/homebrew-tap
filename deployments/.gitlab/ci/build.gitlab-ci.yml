@@ -1,0 +1,16 @@
+image: golang:latest
+
+stages:
+  - build
+  - release
+
+variables:
+  GO111MODULE: "on"
+
+before_script:
+  - go mod download
+
+build:
+  stage: build
+  script:
+    - go build -o myapp
