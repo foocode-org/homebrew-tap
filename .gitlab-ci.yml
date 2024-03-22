@@ -1,7 +1,33 @@
-include:
-  - local: deployments/.gitlab/ci/build.gitlab-ci.yml
-  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
+# Define stages that will be executed in the CI/CD pipeline
+stages:
+  - build
+  - release
 
+# Define variables for reuse
+variables:
+  # Define the name of the binary produced by the build process
+  BINARY_NAME: "helloworld"
+
+# Define the build job
+build:
+  stage: build
+  image: golang:latest  # Use the official Golang Docker image
+  script:
+    # Fetch dependencies
+    - go mod download
+    # Build the Go application
+    - go build -o $BINARY_NAME ./cmd/helloworld
+
+# Define the release job
+release:
+  stage: release
+  image: goreleaser/goreleaser:latest  # Use the official goreleaser Docker image
+  # Only trigger the release job when the build job succeeds
+  dependencies:
+    - build
+  script:
+    # Run goreleaser for releasing the binary
+    - goreleaser release --clean
 
 workflow:
   rules:
