@@ -11,8 +11,11 @@ before:
     - go mod tidy
 
 builds:
+  - main: ./cmd/server/main.go 
   - env:
       - CGO_ENABLED=0
+      - GITLAB_TOKEN={{ .Env.GITLAB_TOKEN }}
+  
     goos:
       - linux
       - windows

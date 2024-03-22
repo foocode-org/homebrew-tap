@@ -21,8 +21,18 @@ build:
 # Define the release job
 release:
   stage: release
-  image: goreleaser/goreleaser:latest  # Use the official goreleaser Docker image
-  # Only trigger the release job when the build job succeeds
+  image:
+    name: goreleaser/goreleaser-cross:v1.21.5
+    entrypoint: [""]
+  services:
+    - name: docker:dind
+      alias: docker
+  artifacts:
+    paths:
+      - out/
+  only:
+    - tags
+
   dependencies:
     - build
   script:
