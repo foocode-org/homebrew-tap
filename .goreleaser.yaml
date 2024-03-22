@@ -1,0 +1,56 @@
+version: 1
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+checksum:
+  name_template: "checksums.txt"
+
+  # Homebrew tap
+brews:
+  - name: helloworld
+    description: "You use the Veracode CLI to perform various actions for testing the security of your applications."
+    homepage: "https://www.veracode.com"
+    url_template: "https://tools.veracode.com/veracode-cli/veracode-cli_{{ replace .Tag \"v\" \"\"}}_{{ if eq .Os \"darwin\" }}macosx_arm64.tar.gz{{ else if eq .Os \"linux\" }}linux_x86.tar.gz{{ end }}"
+    license: "MIT"
+    repository:
+      owner: veracode
+      name: "{{ .Env.HOMEBREW_REPO }}"
+      token: "{{ .Env.GITHUB_PERSONAL_ACCESS_TOKEN }}"
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    folder: Formula
+    install: |
+      bin.install "helloworld"
+    test: |
+      system "#{bin}/helloworld --version"
