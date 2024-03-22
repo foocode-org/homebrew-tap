@@ -1,8 +1,8 @@
 version: 1
 project_name: helloworld
 gitlab_urls:
-  api: https://gitlab.laputa.veracode.io/npm/helloworld
-  download: https://gitlab.laputa.veracode.io/npm/helloworld
+  api: https://gitlab.laputa.veracode.io
+  download: https://gitlab.laputa.veracode.io
   skip_tls_verify: false
   use_package_registry: false
 before:
