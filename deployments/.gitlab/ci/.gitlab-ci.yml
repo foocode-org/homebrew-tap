@@ -1,0 +1,22 @@
+include:
+  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
+image: golang:latest
+
+stages:
+  - build
+  - release
+
+variables:
+  GO111MODULE: "on"
+
+before_script:
+  - go mod download
+
+build:
+  stage: build
+  script:
+    - go build -o myapp
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
