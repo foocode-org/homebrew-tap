@@ -11,12 +11,21 @@ variables:
 # Define the build job
 build:
   stage: build
-  image: golang:latest  # Use the official Golang Docker image
+  image: 
+    name: golang:latest  # Use the official Golang Docker image
+    entrypoint: [""]
+  before_script:
+    - apt-get update -qy
+    - apt-get install git -y
   script:
     # Fetch dependencies
     - go mod download
     # Build the Go application
     - go build -o $BINARY_NAME ./cmd/server/main.go 
+  artifacts:
+    paths:
+      - $BINARY_NAME
+    expire_in: 1 week  # Define how long the artifacts should be kept
 
 # Define the release job
 release:
@@ -27,22 +36,20 @@ release:
   services:
     - name: docker:dind
       alias: docker
-  artifacts:
-    paths:
-      - out/
-  only:
-    - tags
-
   dependencies:
     - build
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
 
+# Define the manual init-release job to create pre-release tags
 init-release:
   stage: release
+  image:
+    name: alpine/git  # Using a lightweight Git image
+    entrypoint: [""]
   script:
-      # Retrieve the previous tag
+    # Retrieve the previous tag
     - PREVIOUS_TAG=$(git describe --tags --abbrev=0)
     # Extract the version number from the previous tag
     - VERSION=$(echo $PREVIOUS_TAG | grep -oP '^v\d+\.\d+\.\d+')
@@ -56,9 +63,10 @@ init-release:
     # Push the new tag to the repository
     - git push --tags
   only:
-    - main
-  when: manual
+    - main  # Execute only on the main branch
+  when: manual  # Manual triggering of this job is required
 
+# Define workflow rules
 workflow:
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main"'  # Execute workflow only for the main branch
