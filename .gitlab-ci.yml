@@ -16,7 +16,7 @@ build:
     # Fetch dependencies
     - go mod download
     # Build the Go application
-    - go build -o $BINARY_NAME ./cmd/helloworld
+    - go build -o $BINARY_NAME ./cmd/server/main.go 
 
 # Define the release job
 release:
