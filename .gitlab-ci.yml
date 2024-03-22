@@ -51,6 +51,9 @@ init-release:
     name: alpine/git  # Using a lightweight Git image
     entrypoint: [""]
   script:
+  # Configure Git with user email and name
+    - git config --global user.email "npm@veracode.com"
+    - git config --global user.name "Noushad"
     # Retrieve the previous tag
     - PREVIOUS_TAG=$(git describe --tags --abbrev=0)
     # Extract the version number from the previous tag using sed
