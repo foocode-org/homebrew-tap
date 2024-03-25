@@ -69,8 +69,3 @@ init-release:
     - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
     # Push the new tag to the repository
     - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git --tags
-
-# Define workflow rules
-workflow:
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'  # Execute workflow only for the main branch
