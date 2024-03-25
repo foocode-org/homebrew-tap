@@ -50,6 +50,8 @@ init-release:
   image:
     name: alpine/git  # Using a lightweight Git image
     entrypoint: [""]
+  before_script:
+  - GITLAB_TOKEN={{ .Env.GITLAB_TOKEN }}
   script:
   # Configure Git with user email and name
     - git config --global user.email "npm@veracode.com"
