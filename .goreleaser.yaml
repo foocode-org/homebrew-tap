@@ -37,7 +37,8 @@ changelog:
       - "^test:"
 checksum:
   name_template: "checksums.txt"
-
+# .goreleaser.yaml
+force_token: gitlab
   # Homebrew tap
 brews:
   - name: helloworld
