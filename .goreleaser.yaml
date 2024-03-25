@@ -17,7 +17,6 @@ builds:
   - main: ./cmd/server/main.go 
     env:
       - CGO_ENABLED=0
-      #- GITLAB_TOKEN={{ .Env.GITLAB_TOKEN }} 
     goos:
       - linux
       - windows
@@ -46,6 +45,8 @@ changelog:
       - "^test:"
 checksum:
   name_template: "checksums.txt"
+# .goreleaser.yaml
+force_token: github
 
   # Homebrew tap
 brews:
