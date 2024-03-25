@@ -44,7 +44,7 @@ release:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
 
-# Define the manual init-release job to create pre-release tags
+# Define the manual init-release job to create release tags
 init-release:
   stage: release
   image:
@@ -63,15 +63,12 @@ init-release:
     # Increment the patch version (you can adjust this logic based on your versioning scheme)
     - PATCH_VERSION=$(echo $VERSION | awk -F. '{print $3}')
     - NEW_PATCH_VERSION=$((PATCH_VERSION + 1))
-    # Construct the new pre-release tag
-    - NEW_TAG=$(echo $VERSION | sed "s/\(.*\)\.\(.*\)\.\(.*\)/\1.\2.$NEW_PATCH_VERSION-pre/")
+    # Construct the new release tag
+    - NEW_TAG=$(echo $VERSION | sed "s/\(.*\)\.\(.*\)\.\(.*\)/\1.\2.$NEW_PATCH_VERSION/")
     # Create the new tag
-    - git tag -a "$NEW_TAG" -m "Pre-release version $NEW_TAG"
+    - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
     # Push the new tag to the repository
     - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git --tags
-  only:
-    - main  # Execute only on the main branch
-  when: manual  # Manual triggering of this job is required
 
 # Define workflow rules
 workflow:
