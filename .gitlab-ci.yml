@@ -42,7 +42,7 @@ release:
     - tags
   script:
     # Run goreleaser for releasing the binary
-    - goreleaser release --clean
+    - goreleaser release --clean --skip-validate
 
 # Define the manual init-release job to create release tags
 init-release:
