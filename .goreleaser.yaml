@@ -1,12 +1,5 @@
 version: 1
 project_name: helloworld
-gitlab_urls:
-  api: https://gitlab.laputa.veracode.io
-  download: https://gitlab.laputa.veracode.io
-  skip_tls_verify: false
-  use_package_registry: false
-github_urls:
-  api: https://api.github.com
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -14,7 +7,7 @@ before:
     - go mod vendor
 
 builds:
-  - main: ./cmd/server/main.go 
+  - binary: "hellowrld"
     env:
       - CGO_ENABLED=0
     goos:
