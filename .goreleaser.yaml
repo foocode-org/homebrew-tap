@@ -57,9 +57,6 @@ brews:
       owner: "{{ .Env.OWNER }}"
       name: "{{ .Env.HOMEBREW_REPO }}"
       token: "{{ .Env.GITLAB_TOKEN }}"
-      git:
-        url: 'git@gitlab.laputa.veracode.io:npm/homebrew-tools.git'
-        private_key: '{{ .Env.PRIVATE_KEY }}'
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     folder: Formula
     install: |
