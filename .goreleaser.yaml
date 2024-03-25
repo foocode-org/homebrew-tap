@@ -57,6 +57,7 @@ brews:
       owner: "{{ .Env.OWNER }}"
       name: "{{ .Env.HOMEBREW_REPO }}"
       token: "{{ .Env.GITLAB_TOKEN }}"
+      branch: main
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     folder: Formula
     install: |
