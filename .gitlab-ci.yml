@@ -51,7 +51,7 @@ init-release:
     name: alpine/git  # Using a lightweight Git image
     entrypoint: [""]
   before_script:
-  - export REPO_TOKEN=${PAT_TOKEN}
+  - export REPO_TOKEN=${GITLAB_TOKEN}
   script:
   # Configure Git with user email and name
     - git config --global user.email "npm@veracode.com"
