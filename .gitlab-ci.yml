@@ -1,6 +1,6 @@
 # Define stages that will be executed in the CI/CD pipeline
 stages:
-  #- build
+  - build
   - release
 
 # Define variables for reuse
