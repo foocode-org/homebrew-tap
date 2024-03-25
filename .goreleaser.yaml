@@ -5,6 +5,8 @@ gitlab_urls:
   download: https://gitlab.laputa.veracode.io
   skip_tls_verify: false
   use_package_registry: false
+env:
+  - GITLAB_TOKEN={{ .Env.GITLAB_TOKEN }}
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -57,6 +59,7 @@ brews:
       token: "{{ .Env.GITLAB_TOKEN }}"
       git:
         url: 'git@gitlab.laputa.veracode.io:npm/homebrew-tools.git'
+        private_key: '{{ .Env.PRIVATE_KEY }}'
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     folder: Formula
     install: |
