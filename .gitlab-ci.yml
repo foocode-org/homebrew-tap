@@ -1,6 +1,6 @@
 # Define stages that will be executed in the CI/CD pipeline
 stages:
-  - build
+  #- build
   - release
 
 # Define variables for reuse
@@ -51,7 +51,8 @@ init-release:
     name: alpine/git  # Using a lightweight Git image
     entrypoint: [""]
   before_script:
-  - GITLAB_TOKEN={{ .Env.GITLAB_TOKEN }}
+  - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
+  - export GOPRIVATE=${CI_SERVER_HOST}
   script:
   # Configure Git with user email and name
     - git config --global user.email "npm@veracode.com"
