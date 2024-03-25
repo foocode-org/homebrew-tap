@@ -9,10 +9,11 @@ before:
   hooks:
     # You may remove this if you don't use go modules.
     - go mod tidy
+    - go mod vendor
 
 builds:
   - main: ./cmd/server/main.go 
-  - env:
+    env:
       - CGO_ENABLED=0
       - GITLAB_TOKEN={{ .Env.GITLAB_TOKEN }}
   
