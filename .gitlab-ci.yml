@@ -68,7 +68,7 @@ init-release:
     - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
     # Push the new tag to the repository
     - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git "$NEW_TAG"
-  when: on_success # This job runs when the build succeeds
+  when: manual
 
 # Define workflow rules
 workflow:
