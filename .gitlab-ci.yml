@@ -50,6 +50,8 @@ init-release:
   image:
     name: alpine/git  # Using a lightweight Git image
     entrypoint: [""]
+  before_script:
+  - export REPO_TOKEN=${PAT_TOKEN}
   script:
   # Configure Git with user email and name
     - git config --global user.email "npm@veracode.com"
@@ -66,7 +68,7 @@ init-release:
     # Create the new tag
     - git tag -a "$NEW_TAG" -m "Pre-release version $NEW_TAG"
     # Push the new tag to the repository
-    - git push https://oauth2:$CI_JOB_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git --tags
+    - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git --tags
   only:
     - main  # Execute only on the main branch
   when: manual  # Manual triggering of this job is required
