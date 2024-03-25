@@ -5,6 +5,8 @@ gitlab_urls:
   download: https://gitlab.laputa.veracode.io
   skip_tls_verify: false
   use_package_registry: false
+github_urls:
+  api: https://api.github.com
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -56,7 +58,9 @@ brews:
     repository:
       owner: "{{ .Env.OWNER }}"
       name: "{{ .Env.HOMEBREW_REPO }}"
-      token: "{{ .Env.GITHUB_PERSONAL_ACCESS_TOKEN }}"
+      token: "{{ .Env.GITHUB_TOKEN }}"
+      git:
+        url: 'git@github.com:Noush-012/homebrew-tools.git'
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     folder: Formula
     install: |

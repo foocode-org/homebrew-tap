@@ -32,13 +32,11 @@ build:
 release:
   stage: release
   image:
-    name: goreleaser/goreleaser-cross:v1.21.5
+    name: goreleaser/goreleaser
     entrypoint: [""]
   services:
     - name: docker:dind
       alias: docker
-  dependencies:
-    - build
   only:
     - tags
   script:
