@@ -54,6 +54,9 @@ init-release:
   - git config --global url.https://gitlab-ci-token:${CI_PAT_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
   script:
+  # Configure Git with user email and name
+    - git config --global user.email "npm@veracode.com"
+    - git config --global user.name "Noushad"
     # Retrieve the previous tag
     - PREVIOUS_TAG=$(git describe --tags --abbrev=0)
     # Extract the version number from the previous tag using sed
