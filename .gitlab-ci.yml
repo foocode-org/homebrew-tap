@@ -26,6 +26,7 @@ build:
     paths:
       - $BINARY_NAME
     expire_in: 1 week  # Define how long the artifacts should be kept
+    when: always
 
 # Define the release job
 release:
