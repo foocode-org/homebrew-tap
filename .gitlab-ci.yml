@@ -68,4 +68,4 @@ init-release:
     # Create the new tag
     - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
     # Push the new tag to the repository
-    - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git --tags
+    - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git "$NEW_TAG"
