@@ -4,12 +4,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"helloworld/internal/handler"
 	"helloworld/internal/repository"
 	"helloworld/internal/server"
 	"helloworld/internal/service"
 	"helloworld/pkg/log"
+
+	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 )
@@ -32,6 +33,7 @@ var HandlerSet = wire.NewSet(
 	handler.NewUserHandler,
 )
 
+// new app
 func newApp(*viper.Viper, *log.Logger) (*gin.Engine, func(), error) {
 	panic(wire.Build(
 		ServerSet,
