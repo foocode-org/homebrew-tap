@@ -41,7 +41,7 @@ release:
     - tags
   script:
     # Run goreleaser for releasing the binary
-    - goreleaser release --clean --skip-validate
+    - goreleaser release --clean --skip=validate
 
   # Define the release job
 brew-release:
@@ -56,7 +56,7 @@ brew-release:
     - tags
   script:
     # Run goreleaser for releasing the binary
-    - goreleaser release --clean --config .goreleaser-brew.yaml
+    - goreleaser release --clean --config .goreleaser-brew.yaml --skip=validate
 
 # Define the manual init-release job to create release tags
 init-release:
