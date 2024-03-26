@@ -43,6 +43,21 @@ release:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean --skip-validate
 
+  # Define the release job
+brew-release:
+  stage: release
+  image:
+    name: goreleaser/goreleaser
+    entrypoint: [""]
+  services:
+    - name: docker:dind
+      alias: docker
+  only:
+    - tags
+  script:
+    # Run goreleaser for releasing the binary
+    - goreleaser release --clean --config .goreleaser-brew.yaml
+
 # Define the manual init-release job to create release tags
 init-release:
   stage: release
