@@ -20,6 +20,7 @@ universal_binaries:
 force_token: github
 release:
  github:
+ disable: true
  skip_upload: true
 
 brews:
