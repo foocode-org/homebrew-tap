@@ -7,8 +7,8 @@ else
   VERSION=$CI_COMMIT_TAG
 fi
 
-git config --global user.email "test@example.com"
-git config --global user.name "Noushad"
+git config --global user.email ${GITHUB_USER_EMAIL}
+git config --global user.name ${GITHUB_USER_NAME}
 git clone https://github.com/foocode123/homebrew-tools.git
 cd homebrew-tools/Formula
 cp -f ../../updated_formula.rb foocode-cli.rb
