@@ -17,8 +17,8 @@ git commit -m "Brew formula update for foocode-cli version $VERSION"
 git remote set-url origin https://${GITHUB_TOKEN}@github.com/foocode123/homebrew-tools.git
 git push origin main
 
-git config --unset-all user.email
-git config --unset-all user.name
+git config --global --unset-all user.name
+git config --global --unset-all user.email
 cd ../../
 rm -rf ./updated_formula.rb
 rm -rf ./homebrew-tools
