@@ -7,6 +7,7 @@ gitlab_urls:
   use_package_registry: false
 env:
   - GITLAB_TOKEN={{ .Env.GITLAB_TOKEN }}
+force_token: gitlab
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -44,5 +45,3 @@ changelog:
       - "^test:"
 checksum:
   name_template: "checksums.txt"
-# .goreleaser.yaml
-force_token: gitlab
