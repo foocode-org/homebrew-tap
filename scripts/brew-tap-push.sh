@@ -9,7 +9,7 @@ fi
 
 git config user.email "test@example.com"
 git config user.name "Noushad"
-git clone https://github.com/veracode/homebrew-tools
+git clone https://github.com/foocode123/homebrew-tools.git
 cd homebrew-tools/Formula
 cp -f ../../updated_formula.rb veracode-cli.rb
 git add .
