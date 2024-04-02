@@ -45,14 +45,14 @@ release-app:
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean --skip=validate
+    - rm -rf dist/
 
 # Define publish homebrew tap job
 release-brew-tap:
   stage: release
-  needs: ["release-app"]
-  artifacts:
-    paths:
-      - checksums.txt
+  needs:
+    - job: release-app
+      artifacts: true
   services:
     - name: docker:dind
       alias: docker
