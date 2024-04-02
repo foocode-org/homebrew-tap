@@ -29,7 +29,7 @@ build:
     when: always
 
 # Define the release job
-release:
+release-app:
   stage: release
   image:
     name: goreleaser/goreleaser
@@ -45,6 +45,22 @@ release:
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean --skip=validate
+
+# Define publish homebrew tap job
+release-brew-tap:
+  stage: release
+  needs: ["release-app"]
+  artifacts:
+    paths:
+      - checksums.txt
+  services:
+    - name: docker:dind
+      alias: docker
+  variables:
+    GIT_DEPTH: 0
+    KUBERNETES_CPU_REQUEST: "7"
+    KUBERNETES_MEMORY_LIMIT: "16Gi"
+  script:
     - chmod +x ./scripts/brew-tap-generator.sh
     - chmod +x ./scripts/brew-tap-push.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb

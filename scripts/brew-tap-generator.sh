@@ -8,13 +8,13 @@ else
 fi
 
 index=0
-total_len=$(awk 'END { print NR }' ./dist/checksums.txt)
+total_len=$(awk 'END { print NR }' ./checksums.txt)
 while [ $index -le $total_len ]; do
-    arc=$(awk "NR==$index {printf \$2 \" \"}" ./dist/checksums.txt)
+    arc=$(awk "NR==$index {printf \$2 \" \"}" ./checksums.txt)
     if [[ $arc == *"linux_x86"* ]]; then
-        SHA256_LINUX=$(awk "NR==$index {printf \$1}" ./dist/checksums.txt)
+        SHA256_LINUX=$(awk "NR==$index {printf \$1}" ./checksums.txt)
     elif [[ $arc == *"macosx_arm64"* ]]; then
-        SHA256_MACOS=$(awk "NR==$index {printf \$1}" ./dist/checksums.txt)
+        SHA256_MACOS=$(awk "NR==$index {printf \$1}" ./checksums.txt)
     fi
     ((index++))
 done
