@@ -66,11 +66,10 @@ release-brew-tap:
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
     - ./scripts/brew-tap-push.sh
     - echo "Homebrew tap formula has been published on GitHub https://github.com/foocode123/homebrew-tools"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - when: on_success
-      allow_failure: false
+  needs:
+    - job: release-app
+      artifacts: true
+  allow_failure: false
 
 
 # Define the manual init-release job to create release tags
