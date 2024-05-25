@@ -78,8 +78,9 @@ release-app:
     paths:
       - dist/
     expire_in: 1 day
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH  == "main"
+  only:
+    - tags
+    - main
 
 # Define publish homebrew tap job
 release-brew-tap:
@@ -98,7 +99,9 @@ release-brew-tap:
   dependencies:
     - release-app
   rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH  == "main"
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG'
+    - when: on_success
+    - allow_failure: true
   after_script:
     - echo "Cleaning up artifacts..."
     - ls ./
