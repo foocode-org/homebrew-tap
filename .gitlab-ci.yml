@@ -28,50 +28,6 @@ build:
     expire_in: 1 week  # Define how long the artifacts should be kept
     when: always
 
-# Define the release job
-release-app:
-  stage: release
-  image:
-    name: goreleaser/goreleaser
-    entrypoint: [""]
-  services:
-    - name: docker:dind
-      alias: docker
-  only:
-    - tags
-  before_script:
-  - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
-  - export GOPRIVATE=${CI_SERVER_HOST}
-  script:
-    # Run goreleaser for releasing the binary
-    - goreleaser release --clean --skip=validate
-    - rm -rf dist/
-
-# Define publish homebrew tap job
-release-brew-tap:
-  stage: release
-  artifacts:
-    paths:
-      - checksums.txt
-  services:
-    - name: docker:dind
-      alias: docker
-  variables:
-    GIT_DEPTH: 0
-    KUBERNETES_CPU_REQUEST: "7"
-    KUBERNETES_MEMORY_LIMIT: "16Gi"
-  script:
-    - chmod +x ./scripts/brew-tap-generator.sh
-    - chmod +x ./scripts/brew-tap-push.sh
-    - ./scripts/brew-tap-generator.sh >> updated_formula.rb
-    - ./scripts/brew-tap-push.sh
-    - echo "Homebrew tap formula has been published on GitHub https://github.com/foocode123/homebrew-tools"
-  needs:
-    - job: release-app
-      artifacts: true
-  allow_failure: false
-
-
 # Define the manual init-release job to create release tags
 init-release:
   stage: release
@@ -98,6 +54,56 @@ init-release:
     # Push the new tag to the repository
     - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git "$NEW_TAG"
   when: manual
+  only:
+    - main
+
+# Define the release job
+release-app:
+  stage: release
+  image:
+    name: goreleaser/goreleaser
+    entrypoint: [""]
+  services:
+    - name: docker:dind
+      alias: docker
+  before_script:
+  - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
+  - export GOPRIVATE=${CI_SERVER_HOST}
+  script:
+    # Run goreleaser for releasing the binary
+    - goreleaser release --clean --skip=validate
+  dependencies:
+    - build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 day
+  only:
+    - tags
+
+# Define publish homebrew tap job
+release-brew-tap:
+  stage: release
+  services:
+    - name: docker:dind
+      alias: docker
+  variables:
+    GIT_DEPTH: 0
+    KUBERNETES_CPU_REQUEST: "7"
+    KUBERNETES_MEMORY_LIMIT: "16Gi"
+  script:
+    - chmod +x ./scripts/brew-tap-publish.sh
+    - ./scripts/brew-tap-publish.sh
+    - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools"
+  dependencies:
+    - release-app
+  only:
+    - tags
+  after_script:
+    - echo "Cleaning up artifacts..."
+    - ls ./
+    - rm -rf dist/
+    - ls ./
 
 # Define workflow rules
 workflow:
