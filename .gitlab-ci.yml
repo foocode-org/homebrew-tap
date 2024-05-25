@@ -72,15 +72,14 @@ release-app:
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
-  dependencies:
-    - build
+  needs:
+    - init-release
   artifacts:
     paths:
       - dist/
     expire_in: 1 day
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG'
-    - when: always
     - when: on_success
     - allow_failure: false
 
