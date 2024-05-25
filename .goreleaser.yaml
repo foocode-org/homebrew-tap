@@ -53,6 +53,7 @@ brews:
     repository:
       owner: Noush-012
       name: homebrew-tools
+    skip_upload: true
     directory: Formula
     install: |
       bin.install "helloworld"
