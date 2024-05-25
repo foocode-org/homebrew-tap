@@ -80,6 +80,8 @@ release-app:
     expire_in: 1 day
   rules:
     - if: '$CI_COMMIT_TAG'
+  only:
+    - main
 
 # Define publish homebrew tap job
 release-brew-tap:
@@ -99,13 +101,10 @@ release-brew-tap:
     - release-app
   rules:
     - if: '$CI_COMMIT_TAG'
+  only:
+    - main
   after_script:
     - echo "Cleaning up artifacts..."
     - ls ./
     - rm -rf dist/
     - ls ./
-
-# Define workflow rules
-workflow:
-  rules:
-   - if: '$CI_COMMIT_BRANCH == "main"'  # Execute workflow only for the main branch and tag events
