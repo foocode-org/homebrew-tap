@@ -25,7 +25,7 @@ build:
   artifacts:
     paths:
       - $BINARY_NAME
-    expire_in: 1 week  # Define how long the artifacts should be kept
+    expire_in: 1 day  # Define how long the artifacts should be kept
     when: always
 
 # Define the manual init-release job to create release tags
@@ -79,9 +79,7 @@ release-app:
       - dist/
     expire_in: 1 day
   rules:
-    - if: '$CI_COMMIT_TAG'
-  only:
-    - main
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH  == "main"
 
 # Define publish homebrew tap job
 release-brew-tap:
@@ -100,9 +98,7 @@ release-brew-tap:
   dependencies:
     - release-app
   rules:
-    - if: '$CI_COMMIT_TAG'
-  only:
-    - main
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH  == "main"
   after_script:
     - echo "Cleaning up artifacts..."
     - ls ./
