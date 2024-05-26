@@ -3,6 +3,11 @@ ls ./
 git config --global user.email ${GITHUB_USER_EMAIL}
 git config --global user.name ${GITHUB_USER_NAME}
 
+cd dist
+ls
+cd homebrew
+ls
+
 ls /dist/
 ls /dist/homebrew/
 # clone the brew-tap repository
