@@ -10,7 +10,7 @@ cp -f ../../dist/homebrew/Formula/helloworld.rb .
 
 git add .
 git commit -m "Brew formula update for foocode-cli version $VERSION"
-git remote set-url origin https://${GITHUB_TOKEN}@github.com/foocode123/homebrew-tools.git
+git remote set-url origin https://${GITHUB_TOKEN}@github.com/Noush-012/homebrew-tools.git
 git push origin main
 
 git config --global --unset-all user.name
