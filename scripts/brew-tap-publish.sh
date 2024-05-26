@@ -2,6 +2,8 @@ ls ./
 
 git config --global user.email ${GITHUB_USER_EMAIL}
 git config --global user.name ${GITHUB_USER_NAME}
+
+# clone the brew-tap repository
 git clone https://github.com/foocode123/homebrew-tools.git
 cd homebrew-tools/Formula
 cp -f ./dist/homebrew/helloworld.rb /homebrew-tools/Formula/
