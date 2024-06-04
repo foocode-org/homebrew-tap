@@ -53,9 +53,9 @@ init-release:
     - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
     # Push the new tag to the repository
     - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git "$NEW_TAG"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
   when: manual
-  only:
-    - main
 
 # Define the release job
 release-app:
@@ -66,6 +66,8 @@ release-app:
   services:
     - name: docker:dind
       alias: docker
+  needs:
+    - init-release
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
