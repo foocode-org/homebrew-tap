@@ -8,6 +8,7 @@ else
 fi
 
 echo "Commit tag: ${CI_COMMIT_TAG}"
+echo "Commit tag: ${COMMIT_TAG}"
 echo "Version: ${VERSION}"
 
 git config --global user.email ${GITHUB_USER_EMAIL}
