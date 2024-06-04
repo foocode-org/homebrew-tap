@@ -49,7 +49,7 @@ brews:
     description: "You use the helloworld CLI to perform various actions for testing the security of your applications."
     homepage: "https://www.helloworld.com"
     license: "MIT"
-    url_template: "https://tools.helloworld.com/helloworld-cli/helloworld-cli_{{ replace .Tag \"v\" \"\"}}_{{ if eq .Os \"darwin\" }}macosx_arm64.tar.gz{{ else if eq .Os \"linux\" }}linux_x86.tar.gz{{ end }}"
+    url_template: "https://tools.helloworld.com/helloworld-cli/helloworld-cli_{{ replace .Tag \"v\" \"\" }}_{{ if eq .Os \"darwin\" }}{{ if eq .Arch \"arm64\" }}macosx_arm64.tar.gz{{ else if eq .Arch \"x86_64\" }}macosx_x86_64.tar.gz{{ else if eq .Arch \"x86\" }}macosx_x86.tar.gz{{ end }}{{ else if eq .Os \"linux\" }}{{ if eq .Arch \"arm64\" }}linux_arm64.tar.gz{{ else if eq .Arch \"x86_64\" }}linux_x86_64.tar.gz{{ else if eq .Arch \"x86\" }}linux_x86.tar.gz{{ end }}{{ end }}"
     repository:
       owner: Noush-012
       name: homebrew-tools

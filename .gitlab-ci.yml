@@ -72,12 +72,9 @@ release-app:
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
-  needs:
-    - init-release
   artifacts:
     paths:
       - dist/
-    expire_in: 1 day
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG'
     - when: on_success
@@ -108,6 +105,4 @@ release-brew-tap:
     - allow_failure: true
   after_script:
     - echo "Cleaning up artifacts..."
-    - ls ./
     - rm -rf dist/
-    - ls ./
