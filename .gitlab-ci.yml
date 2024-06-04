@@ -53,8 +53,8 @@ init-release:
     - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
     # Push the new tag to the repository
     - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git "$NEW_TAG"
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+  only:
+    - main
   when: manual
 
 # Define the release job
