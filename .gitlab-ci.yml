@@ -95,11 +95,14 @@ release-brew-tap:
     - chmod +x ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools"
-  needs: ["release-app"]
-  rules:
-    - if: ($CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG)
-    - when: on_success
-    - allow_failure: true
+  dependencies: ["release-app"]
+  needs:
+      - job: release-app
+        artifacts: true
+  only:
+    - tags
+  when: on_success
+  allow_failure: true
   after_script:
     - echo "Cleaning up artifacts..."
     - rm -rf dist/
