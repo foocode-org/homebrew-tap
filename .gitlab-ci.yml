@@ -27,6 +27,10 @@ build:
       - $BINARY_NAME
     expire_in: 1 day  # Define how long the artifacts should be kept
     when: always
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_TAG'
+      when: never
+    - when: always
 
 # Define the manual init-release job to create release tags
 init-release:
@@ -53,9 +57,9 @@ init-release:
     - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
     # Push the new tag to the repository
     - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git "$NEW_TAG"
-  only:
-    - main
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
 
 # Define the release job
 release-app:
@@ -66,9 +70,11 @@ release-app:
   services:
     - name: docker:dind
       alias: docker
-  only:
-    - tags
-    - main
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
+      when: always
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
@@ -100,9 +106,11 @@ release-brew-tap:
   needs:
       - job: release-app
         artifacts: true
-  only:
-    - tags
-    - main
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
+      when: always
   when: on_success
   allow_failure: true
   after_script:
