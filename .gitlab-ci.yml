@@ -28,8 +28,6 @@ build:
     expire_in: 1 day  # Define how long the artifacts should be kept
     when: always
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_TAG'
-      when: never
     - when: always
 
 # Define the manual init-release job to create release tags
@@ -73,8 +71,11 @@ release-app:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main"
       when: always
+    - if: $CI_COMMIT_TAG
+      when: always
+  needs: ["init-release"]    
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
@@ -109,7 +110,9 @@ release-brew-tap:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: always
+    - if: $CI_COMMIT_TAG
       when: always
   when: on_success
   allow_failure: true
