@@ -68,6 +68,7 @@ release-app:
       alias: docker
   only:
     - tags
+    - main
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
@@ -101,6 +102,7 @@ release-brew-tap:
         artifacts: true
   only:
     - tags
+    - main
   when: on_success
   allow_failure: true
   after_script:
