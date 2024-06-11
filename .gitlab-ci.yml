@@ -71,9 +71,7 @@ release-app:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: always
-    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG != null
       when: always
   needs: ["init-release"]    
   before_script:
@@ -110,9 +108,7 @@ release-brew-tap:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: always
-    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG != null
       when: always
   when: on_success
   allow_failure: true
