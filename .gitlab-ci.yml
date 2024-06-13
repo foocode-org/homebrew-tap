@@ -1,117 +1,21 @@
+include:
+  - local: deployments/.gitlab/ci/build.gitlab-ci.yml
+  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
+  - local: deployments/.gitlab/ci/mac-test.gitlab-ci.yml
+
 # Define stages that will be executed in the CI/CD pipeline
 stages:
   - build
   - release
+  - test 
 
 # Define variables for reuse
 variables:
   # Define the name of the binary produced by the build process
   BINARY_NAME: "helloworld"
 
-# Define the build job
-build:
-  stage: build
-  image: 
-    name: golang:latest  # Use the official Golang Docker image
-    entrypoint: [""]
-  before_script:
-    - apt-get update -qy
-    - apt-get install git -y
-  script:
-    # Fetch dependencies
-    - go mod download
-    # Build the Go application
-    - go build -o $BINARY_NAME ./cmd/server/main.go 
-  artifacts:
-    paths:
-      - $BINARY_NAME
-    expire_in: 1 day  # Define how long the artifacts should be kept
-    when: always
+workflow:
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
     - when: always
-
-# Define the manual init-release job to create release tags
-init-release:
-  stage: release
-  image:
-    name: alpine/git  # Using a lightweight Git image
-    entrypoint: [""]
-  before_script:
-  - export REPO_TOKEN=${GITLAB_TOKEN}
-  script:
-  # Configure Git with user email and name
-    - git config --global user.email "npm@veracode.com"
-    - git config --global user.name "Noushad"
-    # Retrieve the previous tag
-    - PREVIOUS_TAG=$(git describe --tags --abbrev=0)
-    # Extract the version number from the previous tag using sed
-    - VERSION=$(echo $PREVIOUS_TAG | sed 's/^v\([0-9]\+\.[0-9]\+\.[0-9]\+\).*$/\1/')
-    # Increment the patch version (you can adjust this logic based on your versioning scheme)
-    - PATCH_VERSION=$(echo $VERSION | awk -F. '{print $3}')
-    - NEW_PATCH_VERSION=$((PATCH_VERSION + 1))
-    # Construct the new release tag
-    - NEW_TAG=$(echo $VERSION | sed "s/\(.*\)\.\(.*\)\.\(.*\)/\1.\2.$NEW_PATCH_VERSION/")
-    # Create the new tag
-    - git tag -a "$NEW_TAG" -m "release version $NEW_TAG"
-    # Push the new tag to the repository
-    - git push https://oauth2:$REPO_TOKEN@gitlab.laputa.veracode.io/npm/helloworld.git "$NEW_TAG"
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: manual
-
-# Define the release job
-release-app:
-  stage: release
-  image:
-    name: goreleaser/goreleaser
-    entrypoint: [""]
-  services:
-    - name: docker:dind
-      alias: docker
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG != null
-      when: always
-  needs: ["init-release"]    
-  before_script:
-  - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
-  - export GOPRIVATE=${CI_SERVER_HOST}
-  script:
-    # Run goreleaser for releasing the binary
-    - goreleaser release --clean
-  artifacts:
-    paths:
-      - dist/
-
-# Define publish homebrew tap job
-release-brew-tap:
-  stage: release
-  services:
-    - name: docker:dind
-      alias: docker
-  variables:
-    GIT_DEPTH: 0
-    KUBERNETES_CPU_REQUEST: "7"
-    KUBERNETES_MEMORY_LIMIT: "16Gi"
-  before_script:
-    - apt-get update -qy
-    - apt-get install git -y
-  script:
-    - chmod +x ./scripts/brew-tap-publish.sh
-    - ./scripts/brew-tap-publish.sh
-    - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools"
-  dependencies: ["release-app"]
-  needs:
-      - job: release-app
-        artifacts: true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG != null
-      when: always
-  when: on_success
-  allow_failure: true
-  after_script:
-    - echo "Cleaning up artifacts..."
-    - rm -rf dist/

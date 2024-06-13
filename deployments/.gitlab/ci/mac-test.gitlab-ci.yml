@@ -1,0 +1,16 @@
+brew-test-veracode:
+  stage: homebrew-test
+  only:
+    - tags
+  before_script:
+    - python --version
+    - brew --version
+    - veracode version
+  script:
+    - brew tap veracode/tools/veracode-cli
+    - brew install veracode-cli
+    - which veracode
+    - veracode version
+    - behave -D package="veracode-cli" -D version=$version -f json -o results.json
+  tags:
+    - homebrew-mac-test
