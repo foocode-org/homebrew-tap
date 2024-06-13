@@ -6,6 +6,9 @@ brew-test-veracode:
     - python --version
     - brew --version
     - veracode version
+    - uname -a
+    - sw_vers
+    - sysctl -n machdep.cpu.brand_string
   script:
     - brew tap veracode/tools/veracode-cli
     - brew install veracode-cli
