@@ -1,7 +1,7 @@
 include:
   - local: deployments/.gitlab/ci/build.gitlab-ci.yml
   - local: deployments/.gitlab/ci/release.gitlab-ci.yml
-  - local: deployments/.gitlab/ci/mac-test.gitlab-ci.yml
+  - local: deployments/.gitlab/ci/test.gitlab-ci.yml
 
 # Define stages that will be executed in the CI/CD pipeline
 stages:
