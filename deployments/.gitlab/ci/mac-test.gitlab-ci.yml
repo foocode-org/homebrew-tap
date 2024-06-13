@@ -1,5 +1,5 @@
 brew-test-veracode:
-  stage: homebrew-test
+  stage: test
   only:
     - tags
   before_script:
