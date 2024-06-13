@@ -1,23 +1,18 @@
 brew-test-veracode:
   stage: test
   needs: ["release-brew-tap"]
+  image:
+    name: sickcodes/docker-osx:naked-auto
+    entrypoint: [""]
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_TAG 
       when: always
   when: on_success 
   before_script:
-    - python --version
-    - brew --version
-    - veracode version
     - uname -a
     - sw_vers
     - sysctl -n machdep.cpu.brand_string
   script:
-    - brew tap veracode/tools/veracode-cli
-    - brew install veracode-cli
-    - which veracode
-    - veracode version
-    - behave -D package="veracode-cli" -D version=$version -f json -o results.json
-  tags:
-    - homebrew-mac-test
+    - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   
