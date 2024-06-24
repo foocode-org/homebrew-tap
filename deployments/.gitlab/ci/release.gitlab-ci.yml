@@ -48,7 +48,7 @@ release-app:
   - export GOPRIVATE=${CI_SERVER_HOST}
   script:
     # Run goreleaser for releasing the binary
-    - goreleaser release --clean --skip=validate
+    - goreleaser release --clean
   artifacts:
     paths:
       - dist/
