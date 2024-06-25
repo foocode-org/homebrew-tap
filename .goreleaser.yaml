@@ -1,4 +1,4 @@
-version: 1
+version: 2
 project_name: helloworld
 gitlab_urls:
   api: https://gitlab.laputa.veracode.io/api/v4
