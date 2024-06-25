@@ -4,18 +4,13 @@ build:
   image: 
     name: golang:latest  # Use the official Golang Docker image
     entrypoint: [""]
-  before_script:
-    - apt-get update -qy
-    - apt-get install git -y
   script:
     # Fetch dependencies
     - go mod download
     # Build the Go application
-    - go build -o $BINARY_NAME ./cmd/server/main.go 
+    - go build -o $BINARY_NAME ./cmd/server/main.go
   artifacts:
     paths:
-      - $BINARY_NAME
-    expire_in: 1 day  # Define how long the artifacts should be kept
-    when: always
+      - bin/myapp   
   rules:
     - when: always
