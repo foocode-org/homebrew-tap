@@ -15,6 +15,8 @@ while [ $index -le $total_len ]; do
         SHA256_LINUX=$(awk "NR==$index {printf \$1}" ./checksums.txt)
     elif [[ $arc == *"macosx_arm64"* ]]; then
         SHA256_MACOS=$(awk "NR==$index {printf \$1}" ./checksums.txt)
+    elif [[ $arc == *"macosx_x86"* ]]; then
+        SHA256_MACOS_x86=$(awk "NR==$index {printf \$1}" ./checksums.txt)
     fi
     ((index++))
 done
@@ -22,42 +24,47 @@ done
 # Define the heredoc content
 read -r -d '' CODE <<EOF
 
-class VeracodeCli < Formula
-  desc "You use the Veracode CLI to perform various actions for testing the security of your applications."
-  homepage "https://www.veracode.com"
+class helloworldCli < Formula
+  desc "You use the helloworld CLI to perform various actions for testing the security of your applications."
+  homepage "https://www.helloworld.com"
   version "$VERSION"
   license "MIT"
 
   on_macos do
-    url "https://tools.veracode.com/veracode-cli/veracode-cli_${VERSION}_macosx_arm64.tar.gz"
-    sha256 "$SHA256_MACOS"
+    if Hardware::CPU.arm?
+      url "https://tools.helloworld.com/helloworld-cli/helloworld-cli_${VERSION}_macosx_arm64.tar.gz"
+      sha256 "$SHA256_MACOS"
+    elsif Hardware::CPU.intel?
+      url "https://tools.helloworld.com/helloworld-cli/helloworld-cli_${VERSION}_macosx_x86.tar.gz"
+      sha256 "$SHA256_MACOS_x86"
+    end
 
     def install
-      bin.install "veracode"
+      bin.install "helloworld"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://tools.veracode.com/veracode-cli/veracode-cli_${VERSION}_linux_x86.tar.gz"
+      url "https://tools.helloworld.com/helloworld-cli/helloworld-cli_${VERSION}_linux_x86.tar.gz"
       sha256 "$SHA256_LINUX"
 
       def install
-        bin.install "veracode"
+        bin.install "helloworld"
       end
     fi
     if Hardware::CPU.intel?
-      url "https://tools.veracode.com/veracode-cli/veracode-cli_${VERSION}_linux_x86.tar.gz"
+      url "https://tools.helloworld.com/helloworld-cli/helloworld-cli_${VERSION}_linux_x86.tar.gz"
       sha256 "$SHA256_LINUX"
 
       def install
-        bin.install "veracode"
+        bin.install "helloworld"
       end
     fi
   end
 
   test do
-    system "#{bin}/veracode --version"
+    system "#{bin}/helloworld --version"
   end
 end
 EOF
