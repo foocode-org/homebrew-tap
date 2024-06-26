@@ -70,7 +70,6 @@ release-brew-tap:
     - chmod +x ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools"
-  dependencies: ["release-app"]
   needs:
       - job: release-app
         artifacts: true
