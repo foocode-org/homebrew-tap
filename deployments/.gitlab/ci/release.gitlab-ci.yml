@@ -37,8 +37,10 @@ release-app:
     - name: docker:dind
       alias: docker
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main"
       when: always
+    - if: $CI_COMMIT_TAG
+      when: always   
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
@@ -71,8 +73,10 @@ release-brew-tap:
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools"
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main"
       when: always
+    - if: $CI_COMMIT_TAG
+      when: always  
   when: on_success
   allow_failure: true
   after_script:
