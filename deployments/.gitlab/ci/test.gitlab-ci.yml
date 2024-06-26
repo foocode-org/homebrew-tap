@@ -1,12 +1,12 @@
 brew-test-veracode:
   stage: test
-  needs: ["release-brew-tap"]
+  needs:
+    - job: release-brew-tap
   image:
     name: sickcodes/docker-osx:naked-auto
     entrypoint: [""]
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_COMMIT_TAG 
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
       when: always
   when: on_success 
   before_script:

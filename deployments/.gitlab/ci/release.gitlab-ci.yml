@@ -56,6 +56,9 @@ release-app:
 # Define publish homebrew tap job
 release-brew-tap:
   stage: release
+  needs:
+    - job: release-app
+      artifacts: true
   services:
     - name: docker:dind
       alias: docker
@@ -70,15 +73,12 @@ release-brew-tap:
     - chmod +x ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools"
-  needs:
-      - job: release-app
-        artifacts: true
-  when: on_success
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
     - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG
       when: always
+  when: on_success
   allow_failure: true
   after_script:
     - echo "Cleaning up artifacts..."
