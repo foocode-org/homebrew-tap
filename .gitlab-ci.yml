@@ -1,24 +1,37 @@
-include:
-  - local: deployments/.gitlab/ci/build.gitlab-ci.yml
-  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
-  - local: deployments/.gitlab/ci/test.gitlab-ci.yml
-
-# Define stages that will be executed in the CI/CD pipeline
-stages:
-  - build
-  - release
-  - test 
-
-# Define variables for reuse
-variables:
-  # Define the name of the binary produced by the build process
-  BINARY_NAME: "helloworld"
+#include:
+#  - local: deployments/.gitlab/ci/build.gitlab-ci.yml
+#  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
+#  - local: deployments/.gitlab/ci/test.gitlab-ci.yml
+#
+## Define stages that will be executed in the CI/CD pipeline
+#stages:
+#  - build
+#  - release
+#  - test
+#
+## Define variables for reuse
+#variables:
+#  # Define the name of the binary produced by the build process
+#  BINARY_NAME: "helloworld"
 
 #workflow:
 #  rules:
 #    - if: $CI_PIPELINE_SOURCE == 'push'
 #      when: never
 #    - when: always
+
+include:
+  - local: deployments/.gitlab/ci/build.gitlab-ci.yml
+  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
+  - local: deployments/.gitlab/ci/test.gitlab-ci.yml
+
+stages:
+  - build
+  - release
+  - test
+
+variables:
+  BINARY_NAME: "helloworld"
 
 workflow:
   rules:
@@ -44,7 +57,7 @@ release_brew_tap:
       allow_failure: true
 
 next_stage_job:
-  stage: next_stage
+  stage: test
   script:
     - echo "Next stage job"
     # Add your next stage script here
