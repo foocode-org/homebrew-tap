@@ -96,7 +96,6 @@ release-brew-tap:
   script:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
-  needs: ["release-app"]
   rules:
     - if: $CI_JOB_STATUS == 'success'
       when: on_success
