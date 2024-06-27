@@ -33,19 +33,19 @@ stages:
 variables:
   BINARY_NAME: "helloworld"
 
-release_app:
+release-app:
   stage: release
   script:
     - echo "Releasing app"
     # Add your release app script here
   when: on_success
 
-release_brew_tap:
+release-brew-tap:
   stage: release
   script:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
-  needs: ["release_app"]
+  needs: ["release-app"]
   when: manual
 workflow:
   rules:
