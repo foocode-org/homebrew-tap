@@ -20,6 +20,19 @@
 #      when: never
 #    - when: always
 
+include:
+  - local: deployments/.gitlab/ci/build.gitlab-ci.yml
+  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
+  - local: deployments/.gitlab/ci/test.gitlab-ci.yml
+
+stages:
+  - build
+  - release
+  - test
+
+variables:
+  BINARY_NAME: "helloworld"
+
 release_app:
   stage: release
   script:
@@ -41,5 +54,4 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
     - if: '$CI_PIPELINE_SOURCE == "push"'
-      when: on_success
       allow_failure: true
