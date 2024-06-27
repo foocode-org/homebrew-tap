@@ -55,9 +55,7 @@ release-app:
 # Define publish homebrew tap job
 release-brew-tap:
   stage: release
-  needs:
-    - job: release-app
-      artifacts: true
+  needs: ["release-app"]
   services:
     - name: docker:dind
       alias: docker

@@ -1,7 +1,6 @@
 brew-test-veracode:
   stage: test
-  needs:
-    - job: release-brew-tap
+  needs: ["release-brew-tap"]
   image:
     name: sickcodes/docker-osx:naked-auto
     entrypoint: [""]
