@@ -47,7 +47,7 @@ release-brew-tap:
     # Add your release brew tap script here
   needs: ["release-app"]
   when: manual
-  testing-testing:
+testing-testing:
     stage: test
     script:
       - echo "Next stage job"
