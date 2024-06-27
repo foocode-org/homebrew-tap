@@ -90,7 +90,7 @@ release-brew-tap:
   script:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
-  needs: []
+  needs: ["release-app"]
   when: on_failure
 
 testing-testing:
@@ -99,7 +99,7 @@ testing-testing:
     - echo "Next stage job"
     # Add your next stage script here
   when: always
-  needs: ["release-app"]
+  needs: []
 
 workflow:
   rules:
