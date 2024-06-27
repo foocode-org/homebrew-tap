@@ -40,7 +40,8 @@ release-app:
     - if: $CI_COMMIT_BRANCH == "main"
       when: always
     - if: $CI_COMMIT_TAG
-      when: always 
+      when: always
+  allow_failure: false
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
