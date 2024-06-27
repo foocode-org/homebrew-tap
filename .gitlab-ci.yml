@@ -81,7 +81,7 @@ release-app:
   stage: release
   script:
     - echo "Releasing app"
-    - exit 1  # This will cause the job to fail
+#    - exit 1  # This will cause the job to fail
     # Add your release app script here
   when: on_failure
 
