@@ -91,7 +91,7 @@ release-brew-tap:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
   needs: ["release-app"]
-  when: manual
+  when: on_failure
 
 
 
