@@ -99,7 +99,7 @@ testing-testing:
     - echo "Next stage job"
     # Add your next stage script here
   when: always
-  needs: []
+  needs: ["release-app"]
 
 workflow:
   rules:
