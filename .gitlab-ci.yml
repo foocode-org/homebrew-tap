@@ -85,12 +85,22 @@ release-app:
     # Add your release app script here
   when: on_failure
 
+#release-brew-tap:
+#  stage: release
+#  script:
+#    - echo "Releasing brew tap"
+#    # Add your release brew tap script here
+#  needs: ["release-app"]
 release-brew-tap:
   stage: release
   script:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
   needs: ["release-app"]
+  rules:
+    - if: $CI_JOB_STATUS == 'success'
+      when: on_success
+
 
 
 
