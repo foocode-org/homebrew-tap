@@ -52,7 +52,7 @@ testing-testing:
     script:
       - echo "Next stage job"
       # Add your next stage script here
-    needs: [ "release_app" ]
+    needs: [ "release" ]
     when: always
 workflow:
   rules:
