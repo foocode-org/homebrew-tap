@@ -62,4 +62,4 @@ workflow:
       when: always
     - if: '$CI_PIPELINE_SOURCE == "push"'
       allow_failure: true
-    - release-app
+
