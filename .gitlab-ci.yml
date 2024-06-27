@@ -90,7 +90,7 @@ release-brew-tap:
   script:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
-  needs: ["release-app"]
+  needs: []
   when: on_failure
 
 testing-testing:
