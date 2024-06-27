@@ -69,80 +69,80 @@ include:
   - local: deployments/.gitlab/ci/release.gitlab-ci.yml
   - local: deployments/.gitlab/ci/test.gitlab-ci.yml
 
-#stages:
-#  - build
-#  - release
-#  - test
-#
-#variables:
-#  BINARY_NAME: "helloworld"
-#
-#release-app:
-#  stage: release
-#  script:
-#    - echo "Releasing app"
-#    - exit 1  # This will cause the job to fail
-#    # Add your release app script here
-#  when: on_success
-#
-#release-brew-tap:
-#  stage: release
-#  script:
-#    - echo "Releasing brew tap"
-#    # Add your release brew tap script here
-#  needs: ["release-app"]
-#  when: on_failure
-#
-#testing-testing:
-#  stage: test
-#  script:
-#    - echo "Next stage job"
-#    # Add your next stage script here
-#  when: always
-#  needs: []
-#
-#workflow:
-#  rules:
-#    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-#      when: always
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: always
-#    - if: '$CI_PIPELINE_SOURCE == "push"'
-#      allow_failure: true
 stages:
   - build
   - release
   - test
 
-build_job:
-  stage: build
-  script:
-    - make build
+variables:
+  BINARY_NAME: "helloworld"
 
-cleanup_build_job:
-  stage: build
-  script:
-    - cleanup build when failed
-  when: on_failure
-
-release_job:
+release-app:
   stage: release
   script:
-    - make release
-
-cleanup_release_job:
-  stage: release
-  script:
-    - cleanup release when failed
+    - echo "Releasing app"
+    - exit 1  # This will cause the job to fail
+    # Add your release app script here
   when: on_failure
 
-test_job:
-  stage: test
+release-brew-tap:
+  stage: release
   script:
-    - make test
+    - echo "Releasing brew tap"
+    # Add your release brew tap script here
+  needs: ["release-app"]
+  when: on_success
 
-cleanup_job:
+testing-testing:
   stage: test
   script:
-    - cleanup after jobs
+    - echo "Next stage job"
+    # Add your next stage script here
   when: always
+  needs: []
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      allow_failure: true
+#stages:
+#  - build
+#  - release
+#  - test
+#
+#build_job:
+#  stage: build
+#  script:
+#    - make build
+#
+#cleanup_build_job:
+#  stage: build
+#  script:
+#    - cleanup build when failed
+#  when: on_failure
+#
+#release_job:
+#  stage: release
+#  script:
+#    - make release
+#
+#cleanup_release_job:
+#  stage: release
+#  script:
+#    - cleanup release when failed
+#  when: on_failure
+#
+#test_job:
+#  stage: test
+#  script:
+#    - make test
+#
+#cleanup_job:
+#  stage: test
+#  script:
+#    - cleanup after jobs
+#  when: always
