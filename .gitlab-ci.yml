@@ -40,7 +40,6 @@ release-app:
     - exit 1  # This will cause the job to fail
     # Add your release app script here
   allow_failure: false
-
 release-brew-tap:
   stage: release
   script:
