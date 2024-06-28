@@ -64,7 +64,18 @@ stages:
 #      allow_failure: true
 
 
-# Release job
+
+# Build job
+build:
+  stage: build
+  script:
+    - echo "Building the project..."
+    - # Your build scripts here
+  artifacts:
+    paths:
+      - build/  # Ensure build artifacts are available for subsequent stages
+
+# Release app job
 release-app:
   stage: release
   dependencies:
@@ -78,11 +89,11 @@ release-app:
 release-brew-tap:
   stage: release
   dependencies:
-    - release-app  # Ensure this job runs after release-app
+    - build  # Ensure this job runs after build
   script:
     - echo "Releasing brew tap..."
     - # Your release brew tap scripts here
-  when: on_success  # Only runs if release-app succeeds
+  when: on_success  # Only runs if the previous job in the release stage succeeds
 
 # Test job
 test:
