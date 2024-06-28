@@ -39,7 +39,7 @@ release-app:
     - echo "Releasing app"
     - exit 1  # This will cause the job to fail
     # Add your release app script here
-  when: on_success
+  when: on_failure
 
 release-brew-tap:
   stage: release
@@ -61,7 +61,7 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
     - if: '$CI_PIPELINE_SOURCE == "push"'
-      allow_failure: true
+      allow_failure: false
 
 
 
