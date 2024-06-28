@@ -62,15 +62,12 @@ stages:
 #      when: always
 #    - if: '$CI_PIPELINE_SOURCE == "push"'
 #      allow_failure: true
-
-
-
 # Build job
 build:
   stage: build
   script:
     - echo "Building the project..."
-    - # Your build scripts here
+    # Your build scripts here
   artifacts:
     paths:
       - build/  # Ensure build artifacts are available for subsequent stages
@@ -81,8 +78,8 @@ release-app:
   dependencies:
     - build  # Ensures build stage completes before release
   script:
-    - echo "Releasing the app..."
-    - # Your release app scripts here
+    - echo "Releasing the app..."  # Notice the indentation change (one level)
+    # Your release app scripts here
   allow_failure: false  # Fail the job if the script exits with a non-zero status
 
 # Release brew tap job
@@ -92,7 +89,7 @@ release-brew-tap:
     - build  # Ensure this job runs after build
   script:
     - echo "Releasing brew tap..."
-    - # Your release brew tap scripts here
+    # Your release brew tap scripts here
   when: on_success  # Only runs if the previous job in the release stage succeeds
 
 # Test job
@@ -100,4 +97,4 @@ test:
   stage: test
   script:
     - echo "Running tests..."
-    - # Your test scripts here
+    # Your test scripts here
