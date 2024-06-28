@@ -24,12 +24,12 @@ include:
   - local: deployments/.gitlab/ci/build.gitlab-ci.yml
   - local: deployments/.gitlab/ci/release.gitlab-ci.yml
   - local: deployments/.gitlab/ci/test.gitlab-ci.yml
-#
-#stages:
-#  - build
-#  - release
-#  - test
-#
+
+stages:
+  - build
+  - release
+  - test
+
 #variables:
 #  BINARY_NAME: "helloworld"
 #
