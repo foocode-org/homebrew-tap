@@ -30,71 +30,35 @@ stages:
   - release
   - test
 
-#variables:
-#  BINARY_NAME: "helloworld"
-#
-#release-app:
-#  stage: release
-#  script:
-#    - echo "Releasing app"
-#    - exit 1  # This will cause the job to fail
-#    # Add your release app script here
-#  allow_failure: false
-#
-#release-brew-tap:
-#  stage: release
-#  script:
-#    - echo "Releasing brew tap"
-#    # Add your release brew tap script here
-#  depends_on:
-#    - release-app  # This job only runs if release-app succeeds
-#testing-testing:
-#    stage: test
-#    script:
-#      - echo "Next stage job"
-#      # Add your next stage script here
-#    when: always
-#workflow:
-#  rules:
-#    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-#      when: always
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: always
-#    - if: '$CI_PIPELINE_SOURCE == "push"'
-#      allow_failure: true
-# Build job
-build:
-  stage: build
-  script:
-    - echo "Building the project..."
-    # Your build scripts here
-  artifacts:
-    paths:
-      - build/  # Ensure build artifacts are available for subsequent stages
+variables:
+  BINARY_NAME: "helloworld"
 
-# Release app job
 release-app:
   stage: release
-  dependencies:
-    - build  # Ensures build stage completes before release
   script:
-    - echo "Releasing the app..."  # Notice the indentation change (one level)
-    # Your release app scripts here
-  allow_failure: false  # Fail the job if the script exits with a non-zero status
+    - echo "Releasing app"
+    - exit 1  # This will cause the job to fail
+    # Add your release app script here
+  allow_failure: false
 
-# Release brew tap job
 release-brew-tap:
   stage: release
-  dependencies:
-    - build  # Ensure this job runs after build
   script:
-    - echo "Releasing brew tap..."
-    # Your release brew tap scripts here
-  when: on_success  # Only runs if the previous job in the release stage succeeds
-
-# Test job
-test:
-  stage: test
-  script:
-    - echo "Running tests..."
-    # Your test scripts here
+    - echo "Releasing brew tap"
+    # Add your release brew tap script here
+  depends_on:
+    - release-app  # This job only runs if release-app succeeds
+testing-testing:
+    stage: test
+    script:
+      - echo "Next stage job"
+      # Add your next stage script here
+    when: always
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      allow_failure: true
