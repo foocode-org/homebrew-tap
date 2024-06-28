@@ -39,20 +39,21 @@ release-app:
     - echo "Releasing app"
     - exit 1  # This will cause the job to fail
     # Add your release app script here
-  allow_failure: false
+  when: on_success
+
 release-brew-tap:
   stage: release
   script:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
-  depends_on:
-    - release-app  # This job only runs if release-app succeeds
+  needs: ["release-app"]
+  when: always
 testing-testing:
-    stage: test
-    script:
-      - echo "Next stage job"
-      # Add your next stage script here
-    when: always
+  stage: test
+  script:
+    - echo "Next stage job"
+    # Add your next stage script here
+  when: always
 workflow:
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
@@ -61,3 +62,6 @@ workflow:
       when: always
     - if: '$CI_PIPELINE_SOURCE == "push"'
       allow_failure: true
+
+
+
