@@ -39,15 +39,15 @@ release-app:
     - echo "Releasing app"
     - exit 1  # This will cause the job to fail
     # Add your release app script here
-  when: on_success
+  allow_failure: false
 
 release-brew-tap:
   stage: release
   script:
     - echo "Releasing brew tap"
     # Add your release brew tap script here
-  needs: ["release-app"]
-  when: always
+  depends_on:
+    - release-app  # This job only runs if release-app succeeds
 testing-testing:
     stage: test
     script:
