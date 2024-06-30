@@ -69,10 +69,10 @@ release-brew-tap:
     - apt-get install git -y
   script:
     - chmod +x ./scripts/brew-tap-generator.sh
-    - chmod +x ./scripts/brew-tap-push.sh
+    - chmod +x ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
-    - ./scripts/brew-tap-push.sh
-    - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools" 
+    - ./scripts/brew-tap-publish.sh
+    - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}" 
   after_script:
     - echo "Cleaning up artifacts..."
     - rm -rf dist/

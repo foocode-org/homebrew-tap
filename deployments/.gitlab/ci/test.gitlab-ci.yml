@@ -1,14 +1,17 @@
 brew-test-veracode:
   stage: test
   needs: ["release-brew-tap"]
-  image: 
-    name: homebrew/brew:latest
-    entrypoint: [""]
+  image: alpine:latest
   only:
     - tags
-  when: on_success 
+  when: on_success
   before_script:
     - uname -a
+    - apk update
+    - apk add --no-cache bash curl file git
+    - mkdir -p /home/linuxbrew/.linuxbrew && curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
+    - echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /root/.bashrc
+    - source /root/.bashrc
     - brew version
     - brew update
   script:
