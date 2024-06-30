@@ -1,19 +1,18 @@
 brew-test-veracode:
   stage: test
   needs: ["release-brew-tap"]
-  image: alpine:latest
+  image: ubuntu:latest
   only:
     - tags
   when: on_success
   before_script:
-    - uname -a
-    - apk update
-    - apk add --no-cache bash curl file git
+    - apt-get update
+    - apt-get install -y build-essential curl file git
     - mkdir -p /home/linuxbrew/.linuxbrew && curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
     - echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /root/.bashrc
-    - source /root/.bashrc
-    - brew version
+    - eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
     - brew update
+    - brew version
   script:
     - brew tap foocode123/tools
     - brew install foocode-cli
