@@ -1,67 +1,21 @@
-#include:
-#  - local: deployments/.gitlab/ci/build.gitlab-ci.yml
-#  - local: deployments/.gitlab/ci/release.gitlab-ci.yml
-#  - local: deployments/.gitlab/ci/test.gitlab-ci.yml
-#
-## Define stages that will be executed in the CI/CD pipeline
-#stages:
-#  - build
-#  - release
-#  - test
-#
-## Define variables for reuse
-#variables:
-#  # Define the name of the binary produced by the build process
-#  BINARY_NAME: "helloworld"
-
-#workflow:
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE == 'push'
-#      when: never
-#    - when: always
-
 include:
   - local: deployments/.gitlab/ci/build.gitlab-ci.yml
   - local: deployments/.gitlab/ci/release.gitlab-ci.yml
   - local: deployments/.gitlab/ci/test.gitlab-ci.yml
 
+# Define stages that will be executed in the CI/CD pipeline
 stages:
   - build
   - release
-  - test
+  - test 
 
+# Define variables for reuse
 variables:
+  # Define the name of the binary produced by the build process
   BINARY_NAME: "helloworld"
 
-release-app:
-  stage: release
-  script:
-    - echo "Releasing app"
-    - exit 1  # This will cause the job to fail
-    # Add your release app script here
-  when: on_failure
-
-release-brew-tap:
-  stage: release
-  script:
-    - echo "Releasing brew tap"
-    # Add your release brew tap script here
-  needs: ["release-app"]
-  when: always
-testing-testing:
-  stage: test
-  script:
-    - echo "Next stage job"
-    # Add your next stage script here
-  when: always
 workflow:
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "push"'
-      allow_failure: false
-
-
-
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      when: never
+    - when: always

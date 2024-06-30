@@ -36,12 +36,9 @@ release-app:
   services:
     - name: docker:dind
       alias: docker
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: always
-    - if: $CI_COMMIT_TAG
-      when: always
-  allow_failure: false
+  dependencies: []
+  only:
+    - tags
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
@@ -49,7 +46,6 @@ release-app:
     # Run goreleaser for releasing the binary
     - export GITLAB_TOKEN=value
     - goreleaser release --clean
-  when: on_success
   artifacts:
     paths:
       - dist/
@@ -57,12 +53,14 @@ release-app:
 # Define publish homebrew tap job
 release-brew-tap:
   stage: release
-  needs: ["release-app"]
+  dependencies: ["release-app"]
   when: on_success
   allow_failure: true
   services:
     - name: docker:dind
       alias: docker
+  only:
+    - tags
   variables:
     GIT_DEPTH: 0
     KUBERNETES_CPU_REQUEST: "7"
@@ -73,12 +71,7 @@ release-brew-tap:
   script:
     - chmod +x ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-publish.sh
-    - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools"
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: always
-    - if: $CI_COMMIT_TAG
-      when: always   
+    - echo "Homebrew tap formula has been published on GitHub https://github.com/Noush-012/homebrew-tools" 
   after_script:
     - echo "Cleaning up artifacts..."
     - rm -rf dist/
