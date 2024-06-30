@@ -7,6 +7,8 @@ else
   VERSION=$CI_COMMIT_TAG
 fi
 
+# For test version
+VERSION="2.26.0"
 echo "Commit tag: ${CI_COMMIT_TAG}"
 echo "Version: ${VERSION}"
 
@@ -14,13 +16,13 @@ git config --global user.email ${GITHUB_USER_EMAIL}
 git config --global user.name ${GITHUB_USER_NAME}
 
 # clone the brew-tap repository
-git clone https://github.com/Noush-012/homebrew-tools.git
+git clone ${HOMEBREW_REPO}
 cd homebrew-tools/Formula
-cp -f ../../dist/homebrew/Formula/helloworld.rb helloworld.rb
+cp -f ../../updated_formula.rb foocode-cli.rb
 
 git add .
 git commit -m "Brew formula update for helloworld-cli version $VERSION"
-git remote set-url origin https://${GITHUB_TOKEN}@github.com/Noush-012/homebrew-tools.git
+git remote set-url origin https://${GITHUB_TOKEN}@github.com/foocode123/homebrew-tools.git
 git push origin main
 
 git config --global --unset-all user.name

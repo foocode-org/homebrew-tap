@@ -1,15 +1,18 @@
 brew-test-veracode:
   stage: test
   needs: ["release-brew-tap"]
-  image:
-    name: sickcodes/docker-osx:naked-auto
+  image: 
+    name: homebrew/brew:latest
     entrypoint: [""]
   only:
     - tags
   when: on_success 
   before_script:
     - uname -a
-    - sw_vers
-    - sysctl -n machdep.cpu.brand_string
+    - brew version
+    - brew update
   script:
-    - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    - brew tap foocode123/tools
+    - brew install foocode-cli
+    - veracode version
+    - veracode help
