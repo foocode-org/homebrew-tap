@@ -44,7 +44,6 @@ release-app:
   - export GOPRIVATE=${CI_SERVER_HOST}
   script:
     # Run goreleaser for releasing the binary
-    - export GITLAB_TOKEN=value
     - goreleaser release --clean
   artifacts:
     paths:
