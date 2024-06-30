@@ -12,7 +12,7 @@ brew-test-veracode:
     - echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /root/.bashrc
     - eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
     - brew update
-    - brew version
+    - brew --version
   script:
     - brew tap foocode123/tools
     - brew install foocode-cli
