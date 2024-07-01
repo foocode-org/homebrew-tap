@@ -52,7 +52,7 @@ release-app:
     - goreleaser release --clean
     - mkdir out
     - cp -r dist/ out
-    - ls out/
+    - ls out/dist/
 
 # Define publish homebrew tap job
 release-brew-tap:
