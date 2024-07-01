@@ -8,7 +8,7 @@ else
 fi
 
 # For test version
-VERSION="2.26.0"
+VERSION="${VERSION}"
 
 index=0
 total_len=$(awk 'END { print NR }' ./checksum/checksums.txt)
@@ -28,7 +28,7 @@ done
 read -r -d '' CODE <<EOF
 
 class FoocodeCli < Formula
-  desc "You use the veracode CLI to perform various actions for testing the security of your applications."
+  desc "You use the Veracode CLI to perform various actions for testing the security of your applications."
   homepage "https://www.veracode.com"
   version "$VERSION"
   license "MIT"
@@ -48,28 +48,19 @@ class FoocodeCli < Formula
   end
 
   on_linux do
-    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://tools.veracode.com/veracode-cli/veracode-cli_${VERSION}_linux_x86.tar.gz"
-      sha256 "$SHA256_LINUX"
+    url "https://tools.veracode.com/veracode-cli/veracode-cli_${VERSION}_linux_x86.tar.gz"
+    sha256 "$SHA256_LINUX"
 
-      def install
-        bin.install "veracode"
-      end
-    fi
-    if Hardware::CPU.intel?
-      url "https://tools.veracode.com/veracode-cli/veracode-cli_${VERSION}_linux_x86.tar.gz"
-      sha256 "$SHA256_LINUX"
-
-      def install
-        bin.install "veracode"
-      end
-    fi
+    def install
+      bin.install "veracode"
+    end
   end
 
   test do
-    system "#{bin}/veracode --version"
+    system "#{bin}/veracode", "--version"
   end
 end
+
 EOF
 
 # Echo the heredoc content
