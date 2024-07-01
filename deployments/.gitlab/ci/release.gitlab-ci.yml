@@ -39,15 +39,21 @@ release-app:
   dependencies: []
   only:
     - tags
+  artifacts:
+    paths:
+      - out/
+  except:
+    - schedules
   before_script:
   - git config --global url.https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}.insteadOf https://${CI_SERVER_HOST}
   - export GOPRIVATE=${CI_SERVER_HOST}
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
-  artifacts:
-    paths:
-      - dist/
+    - ls
+    - pushd out
+    - popd
+    - ls
 
 # Define publish homebrew tap job
 release-brew-tap:
@@ -68,6 +74,7 @@ release-brew-tap:
     - apt-get update -qy
     - apt-get install git -y
   script:
+    - ls
     - chmod +x ./scripts/brew-tap-generator.sh
     - chmod +x ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
