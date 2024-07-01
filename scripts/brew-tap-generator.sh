@@ -27,7 +27,7 @@ done
 # Define the heredoc content
 read -r -d '' CODE <<EOF
 
-class foocodeCli < Formula
+class FoocodeCli < Formula
   desc "You use the veracode CLI to perform various actions for testing the security of your applications."
   homepage "https://www.veracode.com"
   version "$VERSION"
