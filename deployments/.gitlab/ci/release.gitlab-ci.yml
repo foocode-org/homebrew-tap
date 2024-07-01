@@ -50,10 +50,6 @@ release-app:
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
-    - ls
-    - pushd out
-    - popd
-    - ls
 
 # Define publish homebrew tap job
 release-brew-tap:
