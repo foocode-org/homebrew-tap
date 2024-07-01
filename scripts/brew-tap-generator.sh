@@ -8,7 +8,7 @@ else
 fi
 
 # For test version
-VERSION="${VERSION}"
+VERSION="2.26.0"
 
 index=0
 total_len=$(awk 'END { print NR }' ./checksum/checksums.txt)
