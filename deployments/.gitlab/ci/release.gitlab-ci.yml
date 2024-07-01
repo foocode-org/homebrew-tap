@@ -42,6 +42,7 @@ release-app:
   artifacts:
     paths:
       - out/
+      - dist/
   except:
     - schedules
   before_script:
@@ -50,6 +51,9 @@ release-app:
   script:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
+    - mkdir out
+    - cp -r dist/ out
+    - ls
 
 # Define publish homebrew tap job
 release-brew-tap:
