@@ -42,7 +42,6 @@ release-app:
   artifacts:
     paths:
       - out/
-      - dist/
   except:
     - schedules
   before_script:
@@ -53,7 +52,7 @@ release-app:
     - goreleaser release --clean
     - mkdir out
     - cp -r dist/ out
-    - ls
+    - ls out/
 
 # Define publish homebrew tap job
 release-brew-tap:
@@ -82,4 +81,5 @@ release-brew-tap:
     - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}" 
   after_script:
     - echo "Cleaning up artifacts..."
+    - ls
     - rm -rf dist/
