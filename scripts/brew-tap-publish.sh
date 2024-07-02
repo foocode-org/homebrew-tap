@@ -18,12 +18,14 @@ git config --global user.name ${GITHUB_USER_NAME}
 # clone the brew-tap repository
 git clone ${HOMEBREW_REPO}
 cd homebrew-tools/Formula
-cp -f ../../updated_formula.rb foocode-cli.rb
+cp -f ../../out/updated_formula.rb foocode-cli.rb
 
 git add .
 git commit -m "Brew formula update for helloworld-cli version $VERSION"
 git remote set-url origin https://${GITHUB_TOKEN}@github.com/foocode123/homebrew-tools.git
 git push origin main
 
+# Clean up
 git config --global --unset-all user.name
 git config --global --unset-all user.email
+rm -rf ../../${HOMEBREW_REPO}
