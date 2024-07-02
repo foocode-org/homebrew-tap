@@ -7,6 +7,10 @@ else
   VERSION=$CI_COMMIT_TAG
 fi
 
+# Save artifact
+mkdir formula
+mv updated_formula.rb formula/updated_formula.rb
+
 # For test version
 VERSION="2.26.0"
 echo "Commit tag: ${CI_COMMIT_TAG}"
@@ -18,7 +22,7 @@ git config --global user.name ${GITHUB_USER_NAME}
 # clone the brew-tap repository
 git clone ${HOMEBREW_REPO}
 cd homebrew-tools/Formula
-cp -f ../../out/updated_formula.rb foocode-cli.rb
+cp -f ../../formula/updated_formula.rb foocode-cli.rb
 
 git add .
 git commit -m "Brew formula update for helloworld-cli version $VERSION"

@@ -68,13 +68,16 @@ release-brew-tap:
     GIT_DEPTH: 0
     KUBERNETES_CPU_REQUEST: "7"
     KUBERNETES_MEMORY_LIMIT: "16Gi"
+  artifacts:
+    paths:
+      - formula
   before_script:
     - apt-get update -qy
     - apt-get install git -y
   script:
     - ls
     - chmod +x ./scripts/brew-tap-generator.sh ./scripts/brew-tap-publish.sh
-    - ./scripts/brew-tap-generator.sh >> ./out/updated_formula.rb
+    - ./scripts/brew-tap-generator.sh >> updated_formula.rb
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}" 
   after_script:
