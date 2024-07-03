@@ -51,7 +51,7 @@ release-app:
     # Run goreleaser for releasing the binary
     - goreleaser release --clean
     - mkdir out
-    - cp -r dist/ out
+    - cp -r dist/. out
 
 # Define publish homebrew tap job
 release-brew-tap:
@@ -75,12 +75,10 @@ release-brew-tap:
     - apt-get update -qy
     - apt-get install git -y
   script:
-    - ls
     - chmod +x ./scripts/brew-tap-generator.sh ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}" 
   after_script:
     - echo "Cleaning up artifacts..."
-    - ls
     - rm -rf dist/

@@ -24,7 +24,7 @@ git clone ${HOMEBREW_REPO}
 cd homebrew-tools/Formula
 cp -f ../../formula/updated_formula.rb foocode-cli.rb
 
-git add .
+git add foocode-cli.rb
 git commit -m "Brew formula update for helloworld-cli version $VERSION"
 git remote set-url origin https://${GITHUB_TOKEN}@github.com/foocode123/homebrew-tools.git
 git push origin main

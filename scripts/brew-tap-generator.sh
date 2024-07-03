@@ -11,15 +11,15 @@ fi
 VERSION="2.26.0"
 
 index=0
-total_len=$(awk 'END { print NR }' ./out/dist/checksums.txt)
+total_len=$(awk 'END { print NR }' ./out/checksums.txt)
 while [ $index -le $total_len ]; do
-    arc=$(awk "NR==$index {printf \$2 \" \"}" ./out/dist/checksums.txt)
+    arc=$(awk "NR==$index {printf \$2 \" \"}" ./out/checksums.txt)
     if [[ $arc == *"linux_x86"* ]]; then
-        SHA256_LINUX=$(awk "NR==$index {printf \$1}" ./out/dist/checksums.txt)
+        SHA256_LINUX=$(awk "NR==$index {printf \$1}" ./out/checksums.txt)
     elif [[ $arc == *"macosx_arm64"* ]]; then
-        SHA256_MACOS=$(awk "NR==$index {printf \$1}" ./out/dist/checksums.txt)
+        SHA256_MACOS=$(awk "NR==$index {printf \$1}" ./out/checksums.txt)
     elif [[ $arc == *"macosx_x86"* ]]; then
-        SHA256_MACOS_x86=$(awk "NR==$index {printf \$1}" ./out/dist/checksums.txt)
+        SHA256_MACOS_x86=$(awk "NR==$index {printf \$1}" ./out/checksums.txt)
     fi
     ((index++))
 done
@@ -57,7 +57,7 @@ class FoocodeCli < Formula
   end
 
   test do
-    system "#{bin}/veracode", "--version"
+    system "#{bin}/veracode", "version"
   end
 end
 
