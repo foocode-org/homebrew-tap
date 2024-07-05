@@ -8,10 +8,15 @@ stages:
   - build
   - release
   - test 
-
-# Define variables for reuse
+default:
+  image: docker-ro.laputa.veracode.io/policy/policy-cicd:latest
+  # Define variables for reuse
 variables:
-  # Define the name of the binary produced by the build process
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: '/certs'
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: '/certs/client'
+   # Define the name of the binary produced by the build process
   BINARY_NAME: "helloworld"
 
 workflow:
