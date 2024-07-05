@@ -26,7 +26,7 @@ lint:
     - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.55.2
     # print linting issues to stdout in the format: path/to/file:line description
     # remove `--issues-exit-code 0` or set to non-zero to fail the job if linting issues are detected
-    - $(go env GOPATH)/bin/golangci-lint run --out-format code-climate --path-prefix static-packager | tee $REPORT_FILE | jq -r '.[] | "\(.location.path):\(.location.lines.begin) \(.description)"'
+    - $(go env GOPATH)/bin/golangci-lint run --out-format code-climate --path-prefix helloworld | tee $REPORT_FILE | jq -r '.[] | "\(.location.path):\(.location.lines.begin) \(.description)"'
   artifacts:
     when: always
     reports:
