@@ -17,19 +17,15 @@ build:
     - when: always
 
 lint:
+  image: golangci/golangci-lint:$GOLANGCI_LINT_VERSION
   stage: build
-  variables: 
-    REPORT_FILE: helloworld-code-quality-report.json
   script:
-    - export GOFLAGS='-buildvcs=false'
-    # golangcli-lint binary will be at $(go env GOPATH)/bin/golangci-lint
-    - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.55.2
-    # print linting issues to stdout in the format: path/to/file:line description
+    # Write the code coverage report to gl-code-quality-report.json
+    # and print linting issues to stdout in the format: path/to/file:line description
     # remove `--issues-exit-code 0` or set to non-zero to fail the job if linting issues are detected
-    - $(go env GOPATH)/bin/golangci-lint run --out-format code-climate --path-prefix helloworld | tee $REPORT_FILE | jq -r '.[] | "\(.location.path):\(.location.lines.begin) \(.description)"'
+    - golangci-lint run --issues-exit-code 0 --print-issued-lines=false --out-format code-climate:gl-code-quality-report.json,line-number
   artifacts:
-    when: always
     reports:
-      codequality: '**/$REPORT_FILE'
+      codequality: gl-code-quality-report.json
     paths:
-      - '**/$REPORT_FILE'
+      - gl-code-quality-report.json
