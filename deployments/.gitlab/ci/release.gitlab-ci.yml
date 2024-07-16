@@ -56,7 +56,9 @@ release-app:
 # Define publish homebrew tap job
 release-brew-tap:
   stage: release
-  needs: ["release-app"]
+  needs:
+    - job: release-veracode
+      artifacts: true
   allow_failure: true
   services:
     - name: docker:dind
