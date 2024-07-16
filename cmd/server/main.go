@@ -12,5 +12,5 @@ func main() {
 	flag.Parse()
 
 	// Print the greeting message
-	fmt.Printf("Hello, %s!\n", *name)
+	fmt.Printf("Hello world, %s!\n", *name)
 }
