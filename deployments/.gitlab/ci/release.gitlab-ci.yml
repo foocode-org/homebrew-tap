@@ -57,7 +57,7 @@ release-app:
 release-brew-tap:
   stage: release
   needs:
-    - job: release-veracode
+    - job: release-app
       artifacts: true
   allow_failure: true
   services:
