@@ -63,6 +63,8 @@ release-brew-tap:
       alias: docker
   only:
     - tags
+  except:
+    - schedules
   variables:
     GIT_DEPTH: 0
     KUBERNETES_CPU_REQUEST: "7"
@@ -77,7 +79,4 @@ release-brew-tap:
     - chmod +x ./scripts/brew-tap-generator.sh ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
     - ./scripts/brew-tap-publish.sh
-    - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}" 
-  after_script:
-    - echo "Cleaning up artifacts..."
-    - rm -rf dist/
+    - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}"
