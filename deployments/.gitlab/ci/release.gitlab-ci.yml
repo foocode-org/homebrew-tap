@@ -83,5 +83,6 @@ release-brew-tap:
   script:
     - chmod +x ./scripts/brew-tap-generator.sh ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
+    - ls
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}"
