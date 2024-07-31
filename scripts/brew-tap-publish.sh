@@ -59,7 +59,7 @@ do
   if echo "$PR_CHECKS" | grep -q "pass"; then
     # Merge the pull request
     echo "CI Verification passed successfully"
-    gh pr merge $PR_ID --merge
+    #gh pr merge $PR_ID --merge
     echo "Pull request is merged successfully"
     break
   elif [[ $i -eq $attempts ]]; then
