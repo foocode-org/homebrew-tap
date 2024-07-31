@@ -77,6 +77,9 @@ release-brew-tap:
   before_script:
     - apt-get update -qy
     - apt-get install git -y
+    # Install github cli tool
+    - apt install gh -y
+    - gh --version
   script:
     - chmod +x ./scripts/brew-tap-generator.sh ./scripts/brew-tap-publish.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
