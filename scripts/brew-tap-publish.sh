@@ -24,7 +24,7 @@ BRANCH_NAME="homebrew-cli-release-$VERSION"
 
 # clone the brew-tap repository
 git clone https://${HOMEBREW_REPO}
-cd homebrew-tools/Formula
+cd homebrew-tap/Formula
 git checkout -b $BRANCH_NAME
 echo "hello" >> abc.txt
 # cp -f ../../formula/updated_formula.rb veracode-cli.rb
