@@ -22,15 +22,13 @@ git config --global user.name ${GITHUB_USER_NAME}
 # Create a new branch with a name based on the version
 BRANCH_NAME="homebrew-cli-release-$VERSION"
 
-
-
 # clone the brew-tap repository
 git clone https://${HOMEBREW_REPO}
 cd homebrew-tools/Formula
 git checkout -b $BRANCH_NAME
-cp -f ../../formula/updated_formula.rb veracode-cli.rb
-
-git add veracode-cli.rb
+echo "hello" >> abc.txt
+# cp -f ../../formula/updated_formula.rb veracode-cli.rb
+git add .
 git commit -m "Brew formula update for helloworld-cli version $VERSION"
 git remote set-url origin https://${GITHUB_USER_NAME}:${GITHUB_TOKEN}@${HOMEBREW_REPO}
 git push origin $BRANCH_NAME
