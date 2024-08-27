@@ -14,7 +14,7 @@ brew-test-veracode:
     - brew update
     - brew --version
   script:
-    - brew tap foocode123/tools
-    - brew install foocode-cli
+    - brew tap foocode-org/tap
+    - brew install veracode-cli
     - veracode version
     - veracode help
