@@ -81,8 +81,10 @@ release-brew-tap:
     - apt install gh -y
     - gh --version
   script:
-    - chmod +x ./scripts/brew-tap-generator.sh ./scripts/brew-tap-publish.sh
+    - chmod +x ./scripts/brew-tap-generator.sh ./scripts/brew-tap-publish.sh ./scripts/brew-tap-versioning.sh
     - ./scripts/brew-tap-generator.sh >> updated_formula.rb
     - ls
     - ./scripts/brew-tap-publish.sh
     - echo "Homebrew tap formula has been published on GitHub ${HOMEBREW_REPO}"
+    - ./scripts/brew-tap-versioning.sh
+    - echo "Updated versioned formula has been updated in the tap"
