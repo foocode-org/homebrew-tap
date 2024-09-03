@@ -1,4 +1,4 @@
-class VeracodeCli < Formula
+class VeracodeCLIAT500 < Formula
   desc "Command-line tool for testing application security with Veracode"
   homepage "https://www.veracode.com"
   version "5.0.0"
