@@ -1,19 +1,19 @@
 class VeracodeCli < Formula
   desc "Command-line tool for testing application security with Veracode"
   homepage "https://www.veracode.com"
-  version "5.1.4"
+  version "5.1.5"
   license "MIT"
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://tools.veracode.com/veracode-cli/veracode-cli_5.1.4_macosx_arm64.tar.gz"
-      sha256 "8942ef90bd8bdb7b2afe29bfd76539cf3220d3d52070d2b17d5f203db1d91ee4"
+      url "https://tools.veracode.com/veracode-cli/veracode-cli_5.1.5_macosx_arm64.tar.gz"
+      sha256 "feaef39c03f5582e011e7e48487b04f1845270f9aa6a33d06ce9a5b9eeed86c1"
     elsif Hardware::CPU.intel?
-      url "https://tools.veracode.com/veracode-cli/veracode-cli_5.1.4_macosx_x86.tar.gz"
-      sha256 "bbc348f1d17dfdedc3b9ecd2cd4989c7f4edbe91e9bad9a9dd1ffb9f6794bd97"
+      url "https://tools.veracode.com/veracode-cli/veracode-cli_5.1.5_macosx_x86.tar.gz"
+      sha256 "6013e75873b5b07e863aceed2b0927fca82bf05fe0d42127ffa222e3bd56d0eb"
     end
   elsif OS.linux?
-    url "https://tools.veracode.com/veracode-cli/veracode-cli_5.1.4_linux_x86.tar.gz"
-    sha256 "3d7987c61edf83678ed80ce42b5513f733ba7d930a8f6c0af17c79613075e0f5"
+    url "https://tools.veracode.com/veracode-cli/veracode-cli_5.1.5_linux_x86.tar.gz"
+    sha256 "f1cf4e704c0ba3cc9b9f445615a7e974aab09306b40dec3bec3a1a403a0a9ec0"
   end
   def install
     bin.install "veracode"
